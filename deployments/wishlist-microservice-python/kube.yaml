@@ -1,41 +1,36 @@
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app: "react-ui"
-  name: "ui"
+  name: "wishlist-ui"
 spec:
   selector:
-    app: "react-ui"
+    app: "wishlist-ui"
   ports:
-  - name: "http"
-    port: 8080
-    targetPort: 8080
-  type: NodePort
+  - port: 1003
+    targetPort: 5000
+    name: "http"
 
----
-
+---  
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "react-ui"
+  name: "wishlist-ui"
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: "react-ui"
+      app: "wishlist-ui"
   template:
     metadata:
       labels:
-        app: "react-ui"
+        app: "wishlist-ui"
     spec:
       containers:
-      - name: "react-ui"
-        image: "deekshithsn/ui"
+      - name: "shoe-ui"
+        image: "deekshithsn/wishlist"
         imagePullPolicy: "IfNotPresent"
         resources:
           limits:
             memory: "128Mi"
             cpu: "500m"
         ports:
-        - containerPort: 8080
+        - containerPort: 5000

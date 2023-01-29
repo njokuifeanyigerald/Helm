@@ -1,0 +1,46 @@
+# Default values for zuul-helm.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: deekshithsn/zuul
+  pullPolicy: IfNotPresent
+
+container:
+  name: zuul-api-gateway
+  containerPort: 9999
+
+
+
+
+service:
+  type: NodePort
+  port: 9999
+  targetPort: 9999
+  nodePort: 32470
+  
+  
+
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+
+cpa: 
+  podAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+    - labelSelector:
+        matchExpressions:
+        - key: app
+          operator: In
+          values:
+          - ui-helm 
+      topologyKey: "kubernetes.io/hostname"
+

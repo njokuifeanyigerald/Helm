@@ -19,6 +19,7 @@ const App = () => {
         .then(data => {
           
           setDetails(data)
+          console.log(data)
         
         });
   }

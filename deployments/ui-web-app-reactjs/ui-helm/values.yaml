@@ -1,0 +1,29 @@
+# Default values for ui-helm.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: deekshithsn/ui 
+  pullPolicy: IfNotPresent
+  
+container:
+  name: ui-helm
+  containerPort: 8080
+
+service:
+  type: NodePort
+  port: 8080
+  targetPort: 8080
+  protocol: TCP
+
+resources:
+  limits:
+    memory: "128Mi"
+    cpu: "500m"
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+  

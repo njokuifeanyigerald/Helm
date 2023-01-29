@@ -1,0 +1,59 @@
+---
+# Source: ui-helm/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: ui-helm
+  labels:
+    helm.sh/chart: ui-helm-0.1.0
+    app.kubernetes.io/name: ui-helm
+    app.kubernetes.io/instance: ui-helm
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+      name: "http"
+  selector:
+    app.kubernetes.io/name: ui-helm
+    app.kubernetes.io/instance: ui-helm
+---
+# Source: ui-helm/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui-helm
+  labels:
+    helm.sh/chart: ui-helm-0.1.0
+    app.kubernetes.io/name: ui-helm
+    app.kubernetes.io/instance: ui-helm
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ui-helm
+      app.kubernetes.io/instance: ui-helm
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: ui-helm
+        app.kubernetes.io/instance: ui-helm
+    spec:
+      containers:
+      - name: ui-helm
+        image: "deekshithsn/ui"
+        imagePullPolicy: IfNotPresent
+        resources:
+            limits:
+              cpu: 500m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+        ports:
+        - containerPort: 8080
